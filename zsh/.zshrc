@@ -1,7 +1,5 @@
-ZSH_CONF=~/.zsh/
-
-. $ZSH_CONF/zplug.zsh
-. $ZSH_CONF/function.zsh
-. $ZSH_CONF/alias.zsh
-. $ZSH_CONF/proxy.zsh
-. $ZSH_CONF/config.zsh
+. ~/.zsh/alias.zsh
+. ~/.zsh/config.zsh
+. ~/.zsh/function.zsh
+. ~/.zsh/proxy.zsh
+. ~/.zsh/zplug.zsh
