@@ -13,6 +13,10 @@ function rm() {
   mv $filename ~/.Trash/$moved_filename
 }
 
+function chpwd(){
+  ls -G
+}
+
 # Tmux
 
 function is_exists() {
