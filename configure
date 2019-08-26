@@ -2,69 +2,83 @@
 
 # Functions
 
-function add_symbolic_link () {
+function add_symbolic_link() {
   ln -s $1 $2
   if [ $? -eq 0 ]; then
-    echo "Added" $2 "->" $1
+    echo "Added: $2 -> $1"
   else
-    echo "Add failed" $2 "->" $1
+    echo "Add failed: $2 -> $1"
     exit 1
   fi
 }
 
-function remove_symbolic_link () {
+function remove_symbolic_link() {
   rm -rf $1
   if [ $? -eq 0 ]; then
-    echo "Removed" $1
+    echo "Removed: $1"
   else
-    echo "Remove failed" $1
+    echo "Remove failed: $1"
     exit 1
   fi
 }
 
-function add_if_not_exists () {
-  echo "* $1: Install"
+function add_if_not_exists() {
   if ! brew list $1 > /dev/null 2>&1; then
     brew install $1
     if [ ! $? -eq 0 ]; then exit 1 ;fi
     brew link $1 --force
+    echo "Installed: $1"
   else
-    echo "Already installed"
+    echo "Already installed: $1"
   fi
-  echo
 }
 
-# Constants
-
-CURRENT_DIRECTORY=$(pwd)
-
-ZSH_PATH=$CURRENT_DIRECTORY/zsh
-VIM_PATH=$CURRENT_DIRECTORY/vim
-TMUX_PATH=$CURRENT_DIRECTORY/tmux
+function add_cask_if_not_exists() {
+  if ! brew cask list $1 > /dev/null 2>&1; then
+    brew cask install $1
+    if [ ! $? -eq 0 ]; then exit 1 ;fi
+    echo "Installed (Cask): $1"
+  else
+    echo "Already installed (Cask): $1"
+  fi
+}
 
 # Confirm
 
-if [ -d ~/.zsh ] || [ -f ~/.zshrc ] || [ -d ~/.vim ] || [ -f ~/.vimrc ] || [ -d ~/.tmux ] || [ -f ~/.tmux.conf ]; then
+if [ -L ~/.zsh ] || [ -L ~/.zshrc ] || [ -L ~/.vim ] || [ -L ~/.vimrc ] || [ -L ~/.tmux ] || [ -L ~/.tmux.conf ] || [ -L ~/Library/Application\ Support/Code/User/settings.json ] ||
+   [ -a ~/.zsh ] || [ -a ~/.zshrc ] || [ -a ~/.vim ] || [ -a ~/.vimrc ] || [ -a ~/.tmux ] || [ -a ~/.tmux.conf ] || [ -a ~/Library/Application\ Support/Code/User/settings.json ]; then
   read -p "The file exists. Do you want to overwrite it ? [y/N]: " yn </dev/tty
   case "$yn" in [yY]*) ;; *) exit ;; esac
+  remove_symbolic_link ~/.zsh
+  remove_symbolic_link ~/.zshrc
+  remove_symbolic_link ~/.vim
+  remove_symbolic_link ~/.vimrc
+  remove_symbolic_link ~/.tmux
+  remove_symbolic_link ~/.tmux.conf
+  remove_symbolic_link ~/Library/Application\ Support/Code/User/settings.json
   echo
 fi
 
-# Remote
+# Git
 
-if ! git remote > /dev/null 2>&1 || ! git remote -v | grep 'calmery/dotfiles' > /dev/null 2>&1; then
-  echo "* Git: Clone"
-  git clone git@github.com:calmery/Dotfiles.git ~/.dotfiles --recursive
-  if [ ! $? -eq 0 ]; then
-    echo "Please remove ~/.dotfiles"
-    exit 1
-  fi
-  echo "Added ~/.dotfiles"
-  ZSH_PATH=~/.dotfiles/zsh
-  VIM_PATH=~/.dotfiles/vim
-  TMUX_PATH=~/.dotfiles/tmux
-  echo
+echo "* Git: Clone"
+
+if [ -d ~/.dotfiles ]; then
+  read -p "The folder (~/.dotfiles) exists. Do you want to overwrite it ? [y/N]: " yn </dev/tty
+  case "$yn" in [yY]*) ;; *) exit ;; esac
+  rm -rf ~/.dotfiles
 fi
+
+git clone git@github.com:calmery/Dotfiles.git ~/.dotfiles --recursive
+
+echo "Added ~/.dotfiles"
+
+TMUX_PATH=~/.dotfiles/tmux
+VIM_PATH=~/.dotfiles/vim
+VSCODE_PATH=~/.dotfiles/vscode
+ZSH_PATH=~/.dotfiles/zsh
+
+echo
 
 # Homebrew
 
@@ -78,44 +92,35 @@ else
 fi
 
 echo
-
 echo "* Homebrew: Update"
 
 brew update
 
 echo
 
-# Zsh
+# Install Packages
 
+brew tap homebrew/cask-fonts
 add_if_not_exists zsh
-
-## Change default shell to zsh
-
-if [ -f /etc/shells ]; then
-  if ! cat /etc/shells | grep $(which zsh) > /dev/null 2>&1; then
-    echo $(which zsh) >> /etc/shells
-    chsh -s $(which zsh)
-  fi
-else
-  echo "Not Found /etc/shells"
-  exit 1
-fi
-
-if [ ! $SHELL = $(which zsh) ]; then
-  chsh -s $(which zsh)
-  echo
-fi
-
-# Zplug
-
+add_if_not_exists vim
+add_if_not_exists tmux
 add_if_not_exists zplug
+add_if_not_exists nvm
+add_if_not_exists pyenv
+add_if_not_exists rbenv
+add_if_not_exists reattach-to-user-namespace
+add_cask_if_not_exists google-chrome
+add_cask_if_not_exists firefox
+add_cask_if_not_exists slack
+add_cask_if_not_exists discord
+add_cask_if_not_exists visual-studio-code
+add_cask_if_not_exists font-fira-code
+
+echo
 
 ## Symbolic Links
 
 echo "* Zsh: Create symbolic links"
-
-if [ -d ~/.zsh ]; then remove_symbolic_link ~/.zsh ;fi
-if [ -f ~/.zshrc ]; then remove_symbolic_link ~/.zshrc ;fi
 
 add_symbolic_link $ZSH_PATH/.zsh ~/.zsh
 add_symbolic_link $ZSH_PATH/.zshrc ~/.zshrc
@@ -124,12 +129,7 @@ echo
 
 # Vim
 
-add_if_not_exists vim
-
 echo "* Vim: Create symbolic links"
-
-if [ -d ~/.vim ]; then remove_symbolic_link ~/.vim ;fi
-if [ -f ~/.vimrc ]; then remove_symbolic_link ~/.vimrc ;fi
 
 add_symbolic_link $VIM_PATH/.vim ~/.vim
 add_symbolic_link $VIM_PATH/.vimrc ~/.vimrc
@@ -138,68 +138,44 @@ echo
 
 # tmux
 
-add_if_not_exists tmux
-
 echo "* tmux: Create symbolic links"
-
-if [ -d ~/.tmux ]; then remove_symbolic_link ~/.tmux ;fi
-if [ -f ~/.tmux.conf ]; then remove_symbolic_link ~/.tmux.conf ;fi
 
 add_symbolic_link $TMUX_PATH/.tmux ~/.tmux
 add_symbolic_link $TMUX_PATH/.tmux.conf ~/.tmux.conf
 
 echo
 
-# Atom
+# VSCode
 
-echo "* Atom: Install"
+echo "* VSCode: Install extensions"
 
-if ! brew cask list atom > /dev/null 2>&1; then
-  brew cask install atom
-  if [ ! $? -eq 0 ]; then exit 1 ;fi
+code --install-extension shardulm94.trailing-spaces
+code --install-extension ionutvmi.path-autocomplete
+code --install-extension max-ss.cyberpunk
+code --install-extension coenraads.bracket-pair-colorizer
+code --install-extension aaron-bond.better-comments
 
-  apm install atom-beautify \
-              atom-easy-jsdoc \
-              atom-ide-ui \
-              editorconfig \
-              file-icons \
-              tree-view-git-status \
-              atom-typescript \
-              firacode
-else
-  echo "Already installed"
-fi
+echo "* VSCode: Create symbolic links"
+
+ln -s $VSCODE_PATH/settings.json ~/Library/Application\ Support/Code/User/settings.json
 
 echo
 
-# Google Chrome
+# Memo
 
-echo "* Google Chrome: Install"
-
-if ! brew cask list google-chrome > /dev/null 2>&1; then
-  brew cask install google-chrome
-  if [ ! $? -eq 0 ]; then exit 1 ;fi
-else
-  echo "Already installed"
-fi
-
+echo "Memo"
 echo
-
-# Dependencies
-
-add_if_not_exists nvm
-add_if_not_exists pyenv
-add_if_not_exists rbenv
-add_if_not_exists goenv
-
-# Memos
-
-echo "Memos"
+echo "Terminal:"
+echo "  Change profile to Solarized Dark."
+echo "  Change font to Fira Code Retina 11pt."
 echo
-echo "Atom: Change Syntax Theme to Solarized Dark."
-echo "Terminal: Change Profile to Solarized Dark."
+echo "zsh:"
+echo "  please run the following command."
+echo "    echo $(which zsh) >> /etc/shells"
+echo "    chsh -s $(which zsh)"
 echo
-echo "Configured"
+echo "Configured."
+echo
 echo "Please run \`source ~/.zshrc\`"
 
 # Exit
