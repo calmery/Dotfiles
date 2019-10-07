@@ -154,6 +154,7 @@ code --install-extension ionutvmi.path-autocomplete
 code --install-extension max-ss.cyberpunk
 code --install-extension coenraads.bracket-pair-colorizer
 code --install-extension aaron-bond.better-comments
+code --install-extension editorconfig.editorconfig
 
 echo "* VSCode: Create symbolic links"
 
