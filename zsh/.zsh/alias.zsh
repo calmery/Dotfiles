@@ -1,2 +1,2 @@
-alias l='ls -alh'
-alias ls='ls -aG'
+alias l='ls'
+alias ls='exa -lhi'
