@@ -6,6 +6,10 @@ eval "$(rbenv init -)"
 
 export LANG=en_US.UTF-8
 
+HISTFILE=$HOME/.zsh_history
+HISTSIZE=1000
+SAVEHIST=1000
+
 bindkey '^[[A' history-substring-search-up
 bindkey '^[[B' history-substring-search-down
 
