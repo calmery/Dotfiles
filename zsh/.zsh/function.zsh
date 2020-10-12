@@ -90,3 +90,12 @@ else
     fi
   fi
 fi
+
+function redis-url() {
+  # Get the first argument as the URL variable
+  url=$1
+  # Parse and generate the command: redis-cli -h [hostname] -p [port] -a [password]
+  cmd=`echo $url | sed 's_redis://\(.*\):\(.*\)@\(.*\):\(.*\)_redis-cli -h \3 -p \4 -a \2_'`
+  # Run the command
+  $cmd
+}
