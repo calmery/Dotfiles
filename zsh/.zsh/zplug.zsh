@@ -12,3 +12,4 @@ zplug load --verbose
 
 export SPACESHIP_CHAR_SYMBOL="%(?.٩(*'ω'%)و.(*´'σ'%)?) < "
 export SPACESHIP_DIR_TRUNC_REPO=false
+export SPACESHIP_GCLOUD_SHOW=false
