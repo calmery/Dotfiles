@@ -4,5 +4,6 @@
     "editor.fontSize": 14,
     "editor.fontWeight": "500",
     "editor.tabSize": 2,
+    "files.insertFinalNewline": true,
     "workbench.colorTheme": "Cyberpunk"
 }
