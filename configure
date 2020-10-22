@@ -156,6 +156,7 @@ code --install-extension max-ss.cyberpunk
 code --install-extension coenraads.bracket-pair-colorizer
 code --install-extension aaron-bond.better-comments
 code --install-extension editorconfig.editorconfig
+code --install-extension wraith13.bracket-lens
 
 echo "* VSCode: Create symbolic links"
 
