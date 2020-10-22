@@ -105,7 +105,7 @@ add_if_not_exists zsh
 add_if_not_exists vim
 add_if_not_exists tmux
 add_if_not_exists zplug
-add_if_not_exists nvm
+add_if_not_exists nodenv
 add_if_not_exists pyenv
 add_if_not_exists rbenv
 add_if_not_exists exa
