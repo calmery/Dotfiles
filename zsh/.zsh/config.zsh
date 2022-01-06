@@ -1,4 +1,3 @@
-eval "$(nodenv init -)"
 eval "$(pyenv init -)"
 eval "$(rbenv init -)"
 
@@ -41,3 +40,6 @@ source "/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.in
 source "/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc"
 
 export PATH="/Users/calmery/.deno/bin:$PATH"
+
+export N_PREFIX="$HOME/.n"
+export PATH="$HOME/.n/bin:$PATH"
