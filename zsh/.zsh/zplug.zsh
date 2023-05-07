@@ -1,8 +1,8 @@
 export ZPLUG_HOME=/opt/homebrew/opt/zplug
 source $ZPLUG_HOME/init.zsh
 
-zplug denysdovhan/spaceship-prompt, use:spaceship.zsh, from:github, as:theme
-zplug zsh-users/zsh-syntax-highlighting
+zplug "spaceship-prompt/spaceship-prompt", use:spaceship.zsh, from:github, as:theme
+zplug "zsh-users/zsh-syntax-highlighting", defer:2
 zplug plugins/git, from:oh-my-zsh
 zplug zsh-users/zsh-history-substring-search
 
