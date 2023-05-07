@@ -10,6 +10,7 @@ if ! zplug check --verbose; then zplug install ;fi
 
 zplug load --verbose
 
-export SPACESHIP_CHAR_SYMBOL="%(?.٩(*'ω'%)و.(*´'σ'%)?) < "
+export SPACESHIP_CHAR_SYMBOL_SUCCESS="٩(*'ω'%)و < "
+export SPACESHIP_CHAR_SYMBOL_FAILURE="(*´'σ'%)? < "
 export SPACESHIP_DIR_TRUNC_REPO=false
 export SPACESHIP_GCLOUD_SHOW=false
