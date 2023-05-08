@@ -7,6 +7,11 @@ const {
 const nodeNotifier = require("node-notifier");
 
 const main = async () => {
+  nodeNotifier.notify({
+    title: "Volume Adjuster",
+    message: "Started",
+  });
+
   for await (const _ of setInterval(1000)) {
     try {
       const defaultOutputDevice = await getDefaultOutputDevice();
