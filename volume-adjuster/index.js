@@ -1,3 +1,4 @@
+const { execSync } = require("child_process");
 const { setInterval } = require("timers/promises");
 const {
   getDefaultOutputDevice,
@@ -13,6 +14,21 @@ const main = async () => {
   });
 
   for await (const _ of setInterval(1000)) {
+    if (
+      Number(
+        execSync(
+          'ps aux | grep -c "[V]olume Adjuster.app" | tr -d "\n"'
+        ).toString()
+      ) === 0
+    ) {
+      nodeNotifier.notify({
+        title: "Volume Adjuster",
+        message: "Exited",
+      });
+
+      process.exit(0);
+    }
+
     try {
       const defaultOutputDevice = await getDefaultOutputDevice();
 
@@ -29,7 +45,7 @@ const main = async () => {
           });
         }
       }
-    } catch(error) {
+    } catch (error) {
       nodeNotifier.notify({
         title: "Volume Adjuster",
         message: error.message,
