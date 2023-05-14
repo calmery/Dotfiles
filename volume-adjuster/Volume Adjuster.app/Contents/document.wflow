@@ -59,7 +59,9 @@
 				<key>ActionParameters</key>
 				<dict>
 					<key>COMMAND_STRING</key>
-					<string>/usr/local/bin/node ~/.dotfiles/volume-adjuster/index.js</string>
+					<string>while [[ $(ps aux | grep -c "[V]olume Adjuster.app") -gt 0 ]]; do
+  /usr/local/bin/node ~/.dotfiles/volume-adjuster/index.js
+done</string>
 					<key>CheckedForUserDefaultShell</key>
 					<true/>
 					<key>inputMethod</key>

@@ -28,16 +28,15 @@ const main = async () => {
 
       process.exit(0);
     }
-
     try {
       const defaultOutputDevice = await getDefaultOutputDevice();
 
       if (defaultOutputDevice.transportType === "usb") {
         const { id } = defaultOutputDevice;
 
-        const outputDeviceVolume = await getOutputDeviceVolume(id);
-        if (outputDeviceVolume > 0.5) {
-          await setOutputDeviceVolume(id, 0.5);
+        const outputDeviceVolume = Number(await getOutputDeviceVolume(id));
+        if (outputDeviceVolume === 1) {
+          await setOutputDeviceVolume(id, 0.25);
 
           nodeNotifier.notify({
             title: "Volume Adjuster",
