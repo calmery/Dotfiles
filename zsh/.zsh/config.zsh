@@ -31,6 +31,8 @@ export PATH="$N_PREFIX/bin:$PATH"
 export GIT_EXTERNAL_DIFF=difft
 export PATH="/opt/homebrew/opt/mysql-client/bin:$PATH"
 
+export PATH="$HOME/.local/bin:$PATH"
+
 export NVM_DIR="$HOME/.nvm"
 [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
 [ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"
