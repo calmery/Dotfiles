@@ -108,7 +108,7 @@ add_if_not_exists zplug
 add_if_not_exists n
 add_if_not_exists pyenv
 add_if_not_exists rbenv
-add_if_not_exists exa
+add_if_not_exists eza
 add_if_not_exists reattach-to-user-namespace
 add_cask_if_not_exists google-chrome
 add_cask_if_not_exists firefox
