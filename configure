@@ -112,9 +112,8 @@ add_if_not_exists eza
 add_if_not_exists reattach-to-user-namespace
 add_cask_if_not_exists google-chrome
 add_cask_if_not_exists firefox
-add_cask_if_not_exists slack
 add_cask_if_not_exists discord
-add_cask_if_not_exists visual-studio-code
+add_cask_if_not_exists cursor
 add_cask_if_not_exists font-fira-code
 
 echo
@@ -150,13 +149,13 @@ echo
 
 echo "* VSCode: Install extensions"
 
-code --install-extension shardulm94.trailing-spaces
-code --install-extension ionutvmi.path-autocomplete
-code --install-extension max-ss.cyberpunk
-code --install-extension coenraads.bracket-pair-colorizer
-code --install-extension aaron-bond.better-comments
-code --install-extension editorconfig.editorconfig
-code --install-extension wraith13.bracket-lens
+cursor --install-extension shardulm94.trailing-spaces
+cursor --install-extension ionutvmi.path-autocomplete
+cursor --install-extension max-ss.cyberpunk
+cursor --install-extension coenraads.bracket-pair-colorizer
+cursor --install-extension aaron-bond.better-comments
+cursor --install-extension editorconfig.editorconfig
+cursor --install-extension wraith13.bracket-lens
 
 echo "* VSCode: Create symbolic links"
 
