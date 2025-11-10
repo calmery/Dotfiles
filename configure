@@ -35,7 +35,7 @@ function add_if_not_exists() {
 
 function add_cask_if_not_exists() {
   if ! brew cask list $1 > /dev/null 2>&1; then
-    brew cask install $1
+    brew install --cask $1
     if [ ! $? -eq 0 ]; then exit 1 ;fi
     echo "Installed (Cask): $1"
   else
