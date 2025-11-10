@@ -159,7 +159,7 @@ cursor --install-extension wraith13.bracket-lens
 
 echo "* VSCode: Create symbolic links"
 
-ln -s $VSCODE_PATH/settings.json ~/Library/Application\ Support/Code/User/settings.json
+ln -s $VSCODE_PATH/settings.json ~/Library/Application\ Support/Cursor/User/settings.json
 
 echo
 
