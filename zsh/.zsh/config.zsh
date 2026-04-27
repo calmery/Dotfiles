@@ -38,3 +38,5 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"
 
 . "$HOME/.cargo/env"
+
+source "$HOME/.zsh/claude.zsh"
